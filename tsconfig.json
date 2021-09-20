@@ -1,0 +1,8 @@
+{
+    "compilerOptions": {
+        "outDir": "dist/js",
+        "target": "ES5",
+        "noEmitOnError": true
+    },
+    "include": ["app/**/*"]
+}

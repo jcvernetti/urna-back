@@ -1,0 +1,18 @@
+{
+  "name": "urna-back",
+  "version": "1.0.0",
+  "description": "Projeto urna",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://bitbucket.org/welissonLima/urna-back/src"
+  },
+  "author": "Welisson Lima, Joao Carlos, Stephanny Sena",
+  "license": "ISC",
+  "dependencies": {
+    "express": "4.16.3"
+  }
+}

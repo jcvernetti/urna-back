@@ -3,11 +3,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express = require("express");
 var cors = require("cors");
 var app = express();
-app.use(express.urlencoded({ extended: false }));
-app.use(cors());
+var porta = 8080;
 var candidatos = [];
 app.use(express.json());
-var porta = 8080;
+app.use(express.urlencoded({ extended: false }));
+app.use(cors());
 app.listen(porta, function () {
     console.log("Servidor rodando na porta " + porta + ".");
 });
@@ -21,4 +21,7 @@ app.post("/candidatos", function (req, resp) {
     var candidato = req.body.candidato;
     candidatos.push(candidato);
     resp.json({ mensagem: "Candidato salvo com sucesso !", status: 200 });
+});
+app.get("/candidatos", function (req, resp) {
+    resp.json({ "candidatos": candidatos });
 });

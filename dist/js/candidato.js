@@ -11,7 +11,7 @@ var Candidato = /** @class */ (function () {
             return this._nome;
         },
         set: function (value) {
-            this.nome = value;
+            this._nome = value;
         },
         enumerable: false,
         configurable: true
@@ -21,7 +21,7 @@ var Candidato = /** @class */ (function () {
             return this._numero;
         },
         set: function (value) {
-            this.numero = value;
+            this._numero = value;
         },
         enumerable: false,
         configurable: true

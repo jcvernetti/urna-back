@@ -12,7 +12,7 @@ export class Candidato{
 	}
 
 	public set nome(value: string) {
-		this.nome = value;
+		this._nome = value;
 	}
 
 	public get numero(): number {
@@ -20,6 +20,6 @@ export class Candidato{
 	}
 
 	public set numero(value: number) {
-		this.numero = value;
+		this._numero = value;
 	}
 }

@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Votacao = void 0;
 var Votacao = /** @class */ (function () {
     function Votacao() {
+        this.candidatos = [];
         this.votos = [];
     }
     Object.defineProperty(Votacao.prototype, "tipo", {
@@ -67,6 +68,9 @@ var Votacao = /** @class */ (function () {
     });
     Votacao.prototype.addVoto = function (voto) {
         this.votos.push(voto);
+    };
+    Votacao.prototype.addCandidato = function (candidato) {
+        this.candidatos.push(candidato);
     };
     return Votacao;
 }());

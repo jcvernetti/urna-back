@@ -5,6 +5,7 @@ export class Votacao{
     private _inicio: Date;
     private _termino: Date;
     private _iniciada: boolean;
+	private _terminada: boolean;
     private _candidatos: Array<Candidato>;
 	private _votos: Array<Voto>;
 	
@@ -59,6 +60,14 @@ export class Votacao{
 	
 	public set votos(value: Array<Voto>) {
 		this._votos = value;
+	}
+
+	public get terminada(): boolean {
+		return this._terminada;
+	}
+
+	public set terminada(value: boolean) {
+		this._terminada = value;
 	}
 
 	public addVoto(voto: Voto){

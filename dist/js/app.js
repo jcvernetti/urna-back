@@ -1,10 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var votacao_1 = require("./votacao");
 var express = require("express");
 var cors = require("cors");
 var app = express();
 var porta = 8080;
-var candidatos = [];
+var candidatos = [], votacao = new votacao_1.Votacao();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
@@ -24,4 +25,16 @@ app.post("/candidatos", function (req, resp) {
 });
 app.get("/candidatos", function (req, resp) {
     resp.json({ "candidatos": candidatos });
+});
+app.post("/iniciarvotacao", function (req, resp) {
+    var msg = { mensagem: "Já existe uma votação em curso", isVotacaoIniciada: false };
+    if (!votacao.iniciada) {
+        votacao.iniciada = true;
+        votacao.tipo = req.body.tipo;
+        votacao.inicio = req.body.inicio;
+        votacao.termino = req.body.termino;
+        msg.isVotacaoIniciada = true;
+        msg.mensagem = "Votação iniciada com sucesso";
+    }
+    resp.json(msg);
 });

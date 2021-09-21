@@ -1,10 +1,11 @@
+import { Votacao } from './votacao';
 import * as express from "express";
 import { Candidato } from './candidato';
 import cors = require("cors");
 
 const app = express();
 const porta: number = 8080;
-const candidatos: Array<Candidato> = [];
+const candidatos: Array<Candidato> = [], votacao: Votacao = new Votacao();
 
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
@@ -34,3 +35,19 @@ app.post("/candidatos", function(req: any, resp: any): void{
 app.get("/candidatos", function(req: any, resp: any): void{
     resp.json({"candidatos": candidatos});
 })
+
+app.post("/iniciarvotacao", function(req: any, resp: any): void{
+    let msg = {mensagem: "Já existe uma votação em curso", isVotacaoIniciada: false};
+
+    if(!votacao.iniciada){
+        votacao.iniciada = true;
+        votacao.tipo = req.body.tipo;
+        votacao.inicio = req.body.inicio;
+        votacao.termino = req.body.termino;
+        
+        msg.isVotacaoIniciada = true;
+        msg.mensagem = "Votação iniciada com sucesso";
+    }
+
+    resp.json(msg);
+});

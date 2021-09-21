@@ -1,7 +1,9 @@
-//import * as express from "express";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var express = require("express");
 var app = express();
 app.use(express.urlencoded({ extended: false }));
+var candidatos = [];
 app.use(express.json());
 var porta = 8080;
 app.listen(porta, function () {
@@ -12,5 +14,9 @@ app.post("/login", function (req, resp) {
         return resp.json({ usuario: "admUrna", autorizado: true });
     }
     resp.status(401).end();
-    //nmp i jsonwebtoken
+});
+app.post("/candidatos", function (req, resp) {
+    var candidato = req.body.candidato;
+    candidatos.push(candidato);
+    resp.json({ mensagem: "Candidato salvo com sucesso !", status: 200 });
 });

@@ -1,9 +1,11 @@
 import * as express from "express";
 import { Candidato } from './candidato';
+import cors = require("cors");
 
 const app = express();
 
 app.use(express.urlencoded({extended: false}));
+app.use(cors())
 const candidatos: Array<Candidato> = [];
 
 app.use(express.json());
@@ -16,7 +18,7 @@ app.listen(porta, function(){
 
 app.post("/login", function (req, resp) {
     
-    if (req.body.user == "admUrna" && req.body.pass === 1010) {
+    if (req.body.usuario == "admUrna" && req.body.senha == 1010) {
 
         return resp.json({usuario: "admUrna", autorizado: true})
     }

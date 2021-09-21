@@ -45,7 +45,7 @@ app.post("/votacao", function (req, resp) {
 })
 
 app.get("/candidatos", function(req: any, resp: any): void{
-    resp.json({"candidatos": candidatos});
+    resp.json(votacao.candidatos);
 })
 
 app.post("/iniciarvotacao", function(req: any, resp: any): void{

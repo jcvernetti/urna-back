@@ -1,3 +1,4 @@
+import { Voto } from './voto';
 import * as express from "express";
 import { Candidato } from './candidato';
 
@@ -5,6 +6,7 @@ const app = express();
 
 app.use(express.urlencoded({extended: false}));
 const candidatos: Array<Candidato> = [];
+const votacao: Array<Voto> = [];
 
 app.use(express.json());
 
@@ -29,4 +31,13 @@ app.post("/candidatos", function(req: any, resp: any): void{
     candidatos.push(candidato);
 
     resp.json({mensagem: "Candidato salvo com sucesso !", status: 200});
+})
+
+app.post("/votacao", function (req, resp) {
+
+    let voto : Voto = new Voto(req.body.nomeCandidato, req.body.numeroCandidato, req.body.dataVoto)
+    
+    votacao.push(voto);
+
+    resp.json({status: "200", mensagem: "Voto Registrado Com sucesso"})
 })

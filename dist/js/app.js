@@ -45,3 +45,15 @@ app.post("/iniciarvotacao", function (req, resp) {
     }
     resp.json(msg);
 });
+app.get("/terminarvotacao", function (req, resp) {
+    if (!votacao.iniciada) {
+        resp.json({ mensagem: "Nenhuma votação foi iniciada !", isVotacaoEncerrada: false });
+    }
+    else if (!votacao.terminada) {
+        votacao.terminada = true;
+        resp.json({ mensagem: "Votação terminada com sucesso !", isVotacaoEncerrada: true });
+    }
+    else {
+        resp.json({ mensagem: "Votação já foi encerrada anteriormente!", isVotacaoEncerrada: true });
+    }
+});

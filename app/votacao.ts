@@ -9,6 +9,7 @@ export class Votacao{
 	private _votos: Array<Voto>;
 	
 	constructor(){
+		this.candidatos = [];
 		this.votos = [];
 	}
 
@@ -64,4 +65,7 @@ export class Votacao{
 		this.votos.push(voto);
 	}
 
+	public addCandidato(candidato: Candidato){
+		this.candidatos.push(candidato);
+	}
 }

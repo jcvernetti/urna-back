@@ -20,5 +20,6 @@ app.post("/login", function (req, resp) {
     }
     resp.status(401).end()
 
-    //nmp i jsonwebtoken
 })
+
+

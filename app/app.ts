@@ -7,7 +7,6 @@ import cors = require("cors");
 const app = express();
 const porta: number = 8080;
 
-const candidatos: Array<Candidato> = []; 
 const votacao: Votacao = new Votacao();
 
 app.use(express.json());
@@ -29,8 +28,9 @@ app.post("/login", function (req, resp) {
 })
 
 app.post("/candidatos", function(req: any, resp: any): void{
-    let candidato = req.body.candidato;
-    candidatos.push(candidato);
+    let candidato: Candidato = new Candidato(req.body.nomeCandidato, req.body.numeroCandidato);
+    
+    votacao.addCandidato(candidato);
 
     resp.json({mensagem: "Candidato salvo com sucesso !", status: 200});
 })

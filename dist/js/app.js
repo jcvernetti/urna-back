@@ -3,10 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var voto_1 = require("./voto");
 var votacao_1 = require("./votacao");
 var express = require("express");
+var candidato_1 = require("./candidato");
 var cors = require("cors");
 var app = express();
 var porta = 8080;
-var candidatos = [];
 var votacao = new votacao_1.Votacao();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -21,8 +21,8 @@ app.post("/login", function (req, resp) {
     resp.status(401).end();
 });
 app.post("/candidatos", function (req, resp) {
-    var candidato = req.body.candidato;
-    candidatos.push(candidato);
+    var candidato = new candidato_1.Candidato(req.body.nomeCandidato, req.body.numeroCandidato);
+    votacao.addCandidato(candidato);
     resp.json({ mensagem: "Candidato salvo com sucesso !", status: 200 });
 });
 app.post("/votacao", function (req, resp) {
@@ -31,7 +31,7 @@ app.post("/votacao", function (req, resp) {
     resp.json({ status: "200", mensagem: "Voto Registrado Com sucesso" });
 });
 app.get("/candidatos", function (req, resp) {
-    resp.json({ "candidatos": candidatos });
+    resp.json(votacao.candidatos);
 });
 app.post("/iniciarvotacao", function (req, resp) {
     var msg = { mensagem: "Já existe uma votação em curso", isVotacaoIniciada: false };

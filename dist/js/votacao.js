@@ -5,6 +5,7 @@ var Votacao = /** @class */ (function () {
     function Votacao() {
         this.candidatos = [];
         this.votos = [];
+        this.votosApurados = [];
     }
     Object.defineProperty(Votacao.prototype, "tipo", {
         get: function () {
@@ -76,11 +77,24 @@ var Votacao = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(Votacao.prototype, "votosApurados", {
+        get: function () {
+            return this._votosApurados;
+        },
+        set: function (value) {
+            this._votosApurados = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
     Votacao.prototype.addVoto = function (voto) {
         this.votos.push(voto);
     };
     Votacao.prototype.addCandidato = function (candidato) {
         this.candidatos.push(candidato);
+    };
+    Votacao.prototype.addVotosApurados = function (votoApurado) {
+        this.votosApurados.push(votoApurado);
     };
     return Votacao;
 }());

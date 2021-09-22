@@ -21,7 +21,8 @@ app.post("/login", function (req, resp) {
     resp.status(401).end();
 });
 app.post("/candidatos", function (req, resp) {
-    var candidato = new candidato_1.Candidato(req.body.nomeCandidato, req.body.numeroCandidato);
+    var id = votacao.candidatos.length + 1;
+    var candidato = new candidato_1.Candidato(id, req.body._nome, req.body._numero);
     votacao.addCandidato(candidato);
     resp.json({ mensagem: "Candidato salvo com sucesso !", status: 200 });
 });

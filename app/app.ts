@@ -28,7 +28,8 @@ app.post("/login", function (req, resp) {
 })
 
 app.post("/candidatos", function(req: any, resp: any): void{
-    let candidato: Candidato = new Candidato(req.body.nomeCandidato, req.body.numeroCandidato);
+    let id: number = votacao.candidatos.length + 1;
+    let candidato: Candidato = new Candidato(id, req.body._nome, req.body._numero);
     
     votacao.addCandidato(candidato);
 

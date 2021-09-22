@@ -16,9 +16,9 @@ app.listen(porta, function () {
 });
 app.post("/login", function (req, resp) {
     if (req.body.usuario == "admUrna" && req.body.senha == 1010) {
-        return resp.json({ usuario: "admUrna", autorizado: true });
+        return resp.json({ mensagem: "Autorizado", autorizado: true });
     }
-    resp.status(401).end();
+    resp.json({ mensagem: "Usuário/Senha Inválidos", autorizado: false });
 });
 app.post("/candidatos", function (req, resp) {
     var id = votacao.candidatos.length + 1;

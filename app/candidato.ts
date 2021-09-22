@@ -1,10 +1,12 @@
 export class Candidato{
+	private _id: number;
     private _nome: string;
     private _numero: number;
 
-	constructor(nome: string, numero: number) {
-		this.nome = nome;
-		this.numero = numero;
+	constructor(id:number, nome: string, numero: number) {
+		this._id = id;
+		this._nome = nome;
+		this._numero = numero;
 	}
 
 	public get nome(): string {
@@ -21,5 +23,13 @@ export class Candidato{
 
 	public set numero(value: number) {
 		this._numero = value;
+	}
+
+	public get id(): number {
+		return this._id;
+	}
+
+	public set id(value: number) {
+		this._id = value;
 	}
 }

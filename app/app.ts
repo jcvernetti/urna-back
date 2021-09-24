@@ -47,34 +47,54 @@ app.post("/votacao", function (req, resp) {
     resp.json({ status: "200", mensagem: "Voto Registrado Com sucesso" })
 })
 
+app.get("/votacao", function (req, resp) {
+    resp.json(votacao.votos)
+})
+
 app.get("/candidatos", function (req: any, resp: any): void {
     resp.json(votacao.candidatos);
 })
 
 app.post("/iniciarvotacao", function (req: any, resp: any): void {
-    let msg = { mensagem: "Já existe uma votação em curso", isVotacaoIniciada: false };
+    let msg = { mensagem: "Votação iniciada com sucesso", isVotacaoIniciada: true };
 
-    if (!votacao.iniciada) {
-        votacao.iniciada = true;
-        votacao.tipo = req.body.tipo;
-        votacao.inicio = req.body.inicio;
-        votacao.termino = req.body.termino;
-
-        msg.isVotacaoIniciada = true;
-        msg.mensagem = "Votação iniciada com sucesso";
-    }
+    votacao.iniciada = true;
+    votacao.tipo = req.body.tipo;
+    votacao.inicio = req.body.inicio;
+    votacao.termino = req.body.termino;
+    votacao.terminada = false;
+    votacao.isVotacaoCurso = true;
 
     resp.json(msg);
 });
 
-app.get("/terminarvotacao", function (req: any, resp: any): void {
+app.get("/statusvotacao", function (req: any, resp: any): void {
+    let msg = { mensagem: "Não existe votação em curso.", isVotacaoCurso: false};
+    
+    if(votacao.isVotacaoCurso){
+        msg.mensagem = "Votação em curso";
+        msg.isVotacaoCurso = true;
+    } 
+    
+    resp.json(msg);
+});
+
+app.get("/cancelarvotacao", function (req: any, resp: any): void {
+    votacao.votos = [], votacao.candidatos = [];
     if (!votacao.iniciada) {
-        resp.json({ mensagem: "Nenhuma votação foi iniciada !", isVotacaoEncerrada: false });
+        votacao.terminada = false;
+        votacao.isVotacaoCurso = false;
+        resp.json({ mensagem: "Nenhuma votação foi iniciada !"});
     } else if (!votacao.terminada) {
+        votacao.iniciada = true;
         votacao.terminada = true;
-        resp.json({ mensagem: "Votação terminada com sucesso !", isVotacaoEncerrada: true });
+        votacao.isVotacaoCurso = false;
+        resp.json({ mensagem: "Votação cancelada com sucesso !"});
     } else {
-        resp.json({ mensagem: "Votação já foi encerrada anteriormente!", isVotacaoEncerrada: true });
+        votacao.iniciada = true;
+        votacao.terminada = true;
+        votacao.isVotacaoCurso = false;
+        resp.json({ mensagem: "Votação já foi cancelada anteriormente!"});
     }
 });
 

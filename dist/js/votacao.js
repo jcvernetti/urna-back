@@ -76,6 +76,16 @@ var Votacao = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(Votacao.prototype, "isVotacaoCurso", {
+        get: function () {
+            return this._isVotacaoCurso;
+        },
+        set: function (value) {
+            this._isVotacaoCurso = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
     Votacao.prototype.addVoto = function (voto) {
         this.votos.push(voto);
     };

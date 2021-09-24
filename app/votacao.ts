@@ -6,9 +6,10 @@ export class Votacao{
     private _termino: Date;
     private _iniciada: boolean;
 	private _terminada: boolean;
-    private _candidatos: Array<Candidato>;
+	private _isVotacaoCurso: Boolean;
 	private _votos: Array<Voto>;
-	
+    private _candidatos: Array<Candidato>;
+
 	constructor(){
 		this.candidatos = [];
 		this.votos = [];
@@ -68,6 +69,14 @@ export class Votacao{
 
 	public set terminada(value: boolean) {
 		this._terminada = value;
+	}
+
+	public get isVotacaoCurso(): Boolean {
+		return this._isVotacaoCurso;
+	}
+
+	public set isVotacaoCurso(value: Boolean) {
+		this._isVotacaoCurso = value;
 	}
 
 	public addVoto(voto: Voto){

@@ -33,31 +33,48 @@ app.post("/votacao", function (req, resp) {
     votacao.addVoto(voto);
     resp.json({ status: "200", mensagem: "Voto Registrado Com sucesso" });
 });
+app.get("/votacao", function (req, resp) {
+    resp.json(votacao.votos);
+});
 app.get("/candidatos", function (req, resp) {
     resp.json(votacao.candidatos);
 });
 app.post("/iniciarvotacao", function (req, resp) {
-    var msg = { mensagem: "Já existe uma votação em curso", isVotacaoIniciada: false };
-    if (!votacao.iniciada) {
-        votacao.iniciada = true;
-        votacao.tipo = req.body.tipo;
-        votacao.inicio = req.body.inicio;
-        votacao.termino = req.body.termino;
-        msg.isVotacaoIniciada = true;
-        msg.mensagem = "Votação iniciada com sucesso";
+    var msg = { mensagem: "Votação iniciada com sucesso", isVotacaoIniciada: true };
+    votacao.iniciada = true;
+    votacao.tipo = req.body.tipo;
+    votacao.inicio = req.body.inicio;
+    votacao.termino = req.body.termino;
+    votacao.terminada = false;
+    votacao.isVotacaoCurso = true;
+    resp.json(msg);
+});
+app.get("/statusvotacao", function (req, resp) {
+    var msg = { mensagem: "Não existe votação em curso.", isVotacaoCurso: false };
+    if (votacao.isVotacaoCurso) {
+        msg.mensagem = "Votação em curso";
+        msg.isVotacaoCurso = true;
     }
     resp.json(msg);
 });
-app.get("/terminarvotacao", function (req, resp) {
+app.get("/cancelarvotacao", function (req, resp) {
+    votacao.votos = [], votacao.candidatos = [];
     if (!votacao.iniciada) {
-        resp.json({ mensagem: "Nenhuma votação foi iniciada !", isVotacaoEncerrada: false });
+        votacao.terminada = false;
+        votacao.isVotacaoCurso = false;
+        resp.json({ mensagem: "Nenhuma votação foi iniciada !" });
     }
     else if (!votacao.terminada) {
+        votacao.iniciada = true;
         votacao.terminada = true;
-        resp.json({ mensagem: "Votação terminada com sucesso !", isVotacaoEncerrada: true });
+        votacao.isVotacaoCurso = false;
+        resp.json({ mensagem: "Votação cancelada com sucesso !" });
     }
     else {
-        resp.json({ mensagem: "Votação já foi encerrada anteriormente!", isVotacaoEncerrada: true });
+        votacao.iniciada = true;
+        votacao.terminada = true;
+        votacao.isVotacaoCurso = false;
+        resp.json({ mensagem: "Votação já foi cancelada anteriormente!" });
     }
 });
 app.get("/apuracao", function (req, resp) {

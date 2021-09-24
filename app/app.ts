@@ -56,9 +56,11 @@ app.post("/iniciarvotacao", function (req: any, resp: any): void {
 
     if (!votacao.iniciada) {
         votacao.iniciada = true;
-        votacao.tipo = req.body.tipo;
-        votacao.inicio = req.body.inicio;
-        votacao.termino = req.body.termino;
+        votacao.tipo = req.body._tipo;
+        votacao.dtInicio = req.body._dtInicio;
+        votacao.timeInicio = req.body._timeInicio;
+        votacao.dtFim = req.body._dtFim;
+        votacao.timeFim = req.body._timeFim;
 
         msg.isVotacaoIniciada = true;
         msg.mensagem = "Votação iniciada com sucesso";
@@ -66,6 +68,14 @@ app.post("/iniciarvotacao", function (req: any, resp: any): void {
 
     resp.json(msg);
 });
+
+app.get("/datainicio", function (req:any, resp: any): void {
+    resp.json({dtInicio: votacao.dtInicio, timeInicio: votacao.timeInicio})
+})
+
+app.get("/datafim", function (req:any, resp:any): void {
+    resp.json({dtFim: votacao.dtFim, timeFim: votacao.timeFim})
+})
 
 app.get("/terminarvotacao", function (req: any, resp: any): void {
     if (!votacao.iniciada) {
@@ -84,7 +94,6 @@ app.get("/apuracao", function (req: any, resp: any) {
     let somaVotosValidos: number = 0;
     let somaVotosBrancos: number = 0;
     let somaParcial: number = 0;
-
     for (let j = 0; j < votacao.candidatos.length; j++) {
         somaVotosValidos = 0;
         for (let i = 0; i < votacao.votos.length; i++) {

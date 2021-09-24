@@ -2,8 +2,10 @@ import { Candidato } from './candidato';
 import { Voto } from './voto';
 export class Votacao{
     private _tipo: number;
-    private _inicio: Date;
-    private _termino: Date;
+    private _dtInicio: Date;
+    private _timeInicio: Date;
+	private _dtFim: Date;
+    private _timeFim: Date;
     private _iniciada: boolean;
 	private _terminada: boolean;
     private _candidatos: Array<Candidato>;
@@ -22,20 +24,20 @@ export class Votacao{
 		this._tipo = value;
 	}
 
-	public get inicio(): Date {
-		return this._inicio;
+	public get dtInicio(): Date {
+		return this._dtInicio;
 	}
 
-	public set inicio(value: Date) {
-		this._inicio = value;
+	public set dtInicio(value: Date) {
+		this._dtInicio = value;
 	}
 
-	public get termino(): Date {
-		return this._termino;
+	public get dtFim(): Date {
+		return this._dtFim;
 	}
 
-	public set termino(value: Date) {
-		this._termino = value;
+	public set dtFim(value: Date) {
+		this._dtFim = value;
 	}
 
 	public get candidatos(): Array<Candidato> {
@@ -68,6 +70,20 @@ export class Votacao{
 
 	public set terminada(value: boolean) {
 		this._terminada = value;
+	}
+
+	public get timeInicio(): Date {
+		return this._timeInicio;
+	}
+	public set timeInicio(value: Date) {
+		this._timeInicio = value;
+	}
+
+	public get timeFim(): Date {
+		return this._timeFim;
+	}
+	public set timeFim(value: Date) {
+		this._timeFim = value;
 	}
 
 	public addVoto(voto: Voto){

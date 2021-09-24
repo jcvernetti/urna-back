@@ -16,22 +16,22 @@ var Votacao = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(Votacao.prototype, "inicio", {
+    Object.defineProperty(Votacao.prototype, "dtInicio", {
         get: function () {
-            return this._inicio;
+            return this._dtInicio;
         },
         set: function (value) {
-            this._inicio = value;
+            this._dtInicio = value;
         },
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(Votacao.prototype, "termino", {
+    Object.defineProperty(Votacao.prototype, "dtFim", {
         get: function () {
-            return this._termino;
+            return this._dtFim;
         },
         set: function (value) {
-            this._termino = value;
+            this._dtFim = value;
         },
         enumerable: false,
         configurable: true
@@ -72,6 +72,26 @@ var Votacao = /** @class */ (function () {
         },
         set: function (value) {
             this._terminada = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Votacao.prototype, "timeInicio", {
+        get: function () {
+            return this._timeInicio;
+        },
+        set: function (value) {
+            this._timeInicio = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Votacao.prototype, "timeFim", {
+        get: function () {
+            return this._timeFim;
+        },
+        set: function (value) {
+            this._timeFim = value;
         },
         enumerable: false,
         configurable: true

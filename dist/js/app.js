@@ -56,18 +56,20 @@ app.post("/iniciarvotacao", function (req, resp) {
     var votacao = lerArquivoJSON(arquivoDados);
     var msg = { mensagem: "Votação iniciada com sucesso", isVotacaoIniciada: true };
     votacao._iniciada = true;
-    votacao._tipo = req.body._tipo;
+    votacao._tipoEleicao = req.body._tipoEleicao;
     votacao._dtInicio = req.body._dtInicio;
     votacao._timeInicio = req.body._timeInicio;
     votacao._dtFim = req.body._dtFim;
     votacao._timeFim = req.body._timeFim;
+    votacao._isVotacaoCurso = true;
     votacao._votos = [];
     escreverArquivoJSON(arquivoDados, JSON.stringify(votacao));
     resp.json(msg);
 });
 app.get("/statusvotacao", function (req, resp) {
+    var votacao = lerArquivoJSON(arquivoDados);
     var msg = { mensagem: "Não existe votação em curso.", isVotacaoCurso: false };
-    if (votacao.isVotacaoCurso) {
+    if (votacao._isVotacaoCurso) {
         msg.mensagem = "Votação em curso";
         msg.isVotacaoCurso = true;
     }
@@ -83,6 +85,17 @@ app.get("/datainicio", function (req, resp) {
 app.get("/datafim", function (req, resp) {
     var votacao = lerArquivoJSON(arquivoDados);
     resp.json({ dtFim: votacao._dtFim, timeFim: votacao._timeFim });
+});
+app.get("/infovotacao", function (req, resp) {
+    var votacao = lerArquivoJSON(arquivoDados);
+    var dados = {
+        tipoEleicao: votacao._tipoEleicao,
+        dtInicio: votacao._dtInicio,
+        timeInicio: votacao._timeInicio,
+        dtFim: votacao._dtFim,
+        timeFim: votacao._timeFim
+    };
+    resp.json(dados);
 });
 app.get("/terminarvotacao", function (req, resp) {
     var votacao = lerArquivoJSON(arquivoDados);
@@ -150,5 +163,7 @@ function isArquivoDeDadosVazio(arquivo) {
     return Object.keys(dados).length == 0;
 }
 function criarArquivoDedados(arquivo) {
-    escreverArquivoJSON(arquivo, JSON.stringify(new votacao_1.Votacao()));
+    var votacao = new votacao_1.Votacao();
+    votacao.isVotacaoCurso = false;
+    escreverArquivoJSON(arquivo, JSON.stringify(votacao));
 }

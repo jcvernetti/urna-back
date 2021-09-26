@@ -73,11 +73,12 @@ app.post("/iniciarvotacao", function (req: any, resp: any): void {
     let msg = { mensagem: "Votação iniciada com sucesso", isVotacaoIniciada: true };
 
     votacao._iniciada = true;
-    votacao._tipo = req.body._tipo;
+    votacao._tipoEleicao = req.body._tipoEleicao;
     votacao._dtInicio = req.body._dtInicio;
     votacao._timeInicio = req.body._timeInicio;
     votacao._dtFim = req.body._dtFim;
     votacao._timeFim = req.body._timeFim;
+    votacao._isVotacaoCurso = true;
     votacao._votos = [];
 
     escreverArquivoJSON(arquivoDados, JSON.stringify(votacao));
@@ -86,9 +87,10 @@ app.post("/iniciarvotacao", function (req: any, resp: any): void {
 });
 
 app.get("/statusvotacao", function (req: any, resp: any): void {
+    let votacao = lerArquivoJSON(arquivoDados);
     let msg = { mensagem: "Não existe votação em curso.", isVotacaoCurso: false};
     
-    if(votacao.isVotacaoCurso){
+    if(votacao._isVotacaoCurso){
         msg.mensagem = "Votação em curso";
         msg.isVotacaoCurso = true;
     } 
@@ -108,6 +110,20 @@ app.get("/datainicio", function (req:any, resp: any): void {
 app.get("/datafim", function (req:any, resp:any): void {
     let votacao = lerArquivoJSON(arquivoDados);
     resp.json({dtFim: votacao._dtFim, timeFim: votacao._timeFim})
+});
+
+app.get("/infovotacao", function(req: any, resp: any) {
+    let votacao = lerArquivoJSON(arquivoDados);
+    
+    let dados: object = {
+        tipoEleicao: votacao._tipoEleicao,
+        dtInicio: votacao._dtInicio, 
+        timeInicio: votacao._timeInicio,
+        dtFim: votacao._dtFim, 
+        timeFim: votacao._timeFim
+    }
+
+    resp.json(dados)
 });
 
 app.get("/terminarvotacao", function (req: any, resp: any): void {
@@ -188,5 +204,7 @@ function isArquivoDeDadosVazio(arquivo) {
 }
 
 function criarArquivoDedados(arquivo) {
-    escreverArquivoJSON(arquivo, JSON.stringify(new Votacao()));
+    let votacao = new Votacao();
+    votacao.isVotacaoCurso = false;
+    escreverArquivoJSON(arquivo, JSON.stringify(votacao));
 }

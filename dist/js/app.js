@@ -31,7 +31,7 @@ app.post("/login", function (req, resp) {
 });
 app.post("/candidatos", function (req, resp) {
     var votacao = lerArquivoJSON(arquivoDados);
-    var id = votacao._candidatos == undefined ? 1 : votacao._candidatos.length + 1;
+    var id = votacao._candidatos.length == 0 ? 1 : votacao._candidatos[votacao._candidatos.length - 1]._id + 1;
     var candidato = new candidato_1.Candidato(id, req.body._nome, req.body._numero);
     votacao._candidatos.push(candidato);
     escreverArquivoJSON(arquivoDados, JSON.stringify(votacao));
@@ -96,6 +96,29 @@ app.get("/infovotacao", function (req, resp) {
         timeFim: votacao._timeFim
     };
     resp.json(dados);
+});
+app.delete("/deletarcandidato/:numeroCandidato", function (req, resp) {
+    var votacao = lerArquivoJSON(arquivoDados);
+    var numeroCandidato = req.params.numeroCandidato;
+    var resposta = { mensagem: "Candidato não encontrado !", isCandidatoDeletado: false };
+    if (votacao._candidatos == undefined) {
+        resposta.mensagem = "Lista de candidatos não definida, contate o administrador do sistema.";
+    }
+    else if (votacao._candidatos.length == 0) {
+        resposta.mensagem = "Lista de candidatos vazia !";
+    }
+    else {
+        var auxArray = votacao._candidatos.slice();
+        for (var i = 0; i < votacao._candidatos.length; i++) {
+            if (votacao._candidatos[i]._numero == Number(numeroCandidato)) {
+                auxArray.splice(i, 1);
+                resposta.mensagem = "Candidato deletado com sucesso !";
+            }
+        }
+        votacao._candidatos = auxArray.slice();
+        escreverArquivoJSON(arquivoDados, JSON.stringify(votacao));
+    }
+    resp.json(resposta);
 });
 app.get("/terminarvotacao", function (req, resp) {
     var votacao = lerArquivoJSON(arquivoDados);
